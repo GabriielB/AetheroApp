@@ -1,3 +1,4 @@
+import 'package:aethero/core/navigation/providers/navigation_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -109,7 +110,7 @@ class _ErrorState extends StatelessWidget {
   }
 }
 
-class _CityList extends StatelessWidget {
+class _CityList extends ConsumerWidget {
   final List<City> cities;
 
   const _CityList({required this.cities});
@@ -138,7 +139,7 @@ class _CityList extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext contex, WidgetRef ref) {
     return ListView.separated(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       itemCount: cities.length,
@@ -150,7 +151,13 @@ class _CityList extends StatelessWidget {
 
         return InkWell(
           borderRadius: BorderRadius.circular(16),
-          onTap: () {},
+          onTap: () {
+            // salvar cidade
+            ref.read(selectedCityProvider.notifier).selectCity(city);
+
+            //  mudar aba para clima
+            ref.read(navigationIndexProvider.notifier).changeTab(1);
+          },
           child: Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
