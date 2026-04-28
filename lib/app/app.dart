@@ -1,3 +1,4 @@
+import 'package:aethero/features/search/presentation/pages/search_page.dart';
 import 'package:flutter/material.dart';
 
 class AetheroApp extends StatelessWidget {
@@ -9,7 +10,7 @@ class AetheroApp extends StatelessWidget {
       title: 'Aethero',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(colorSchemeSeed: Colors.blue, useMaterial3: true),
-      home: Scaffold(body: Center(child: Text("Hello, Aethero!"))),
+      home: SearchPage(),
     );
   }
 }

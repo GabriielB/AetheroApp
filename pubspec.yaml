@@ -38,6 +38,7 @@ dependencies:
   json_annotation: ^4.9.0
   shared_preferences: ^2.5.3
   intl: ^0.20.2
+  lucide_flutter: ^1.7.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
