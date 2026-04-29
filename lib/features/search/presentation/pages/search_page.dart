@@ -1,7 +1,7 @@
-import 'package:aethero/core/navigation/providers/navigation_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:aethero/core/navigation/providers/navigation_provider.dart';
+import '../../../../core/navigation/providers/selected_city_provider.dart';
 import '../providers/city_search_controller.dart';
 import '../providers/city_search_state.dart';
 import '../../domain/entities/city.dart';
@@ -151,11 +151,16 @@ class _CityList extends ConsumerWidget {
 
         return InkWell(
           borderRadius: BorderRadius.circular(16),
-          onTap: () {
-            // salvar cidade
+          onTap: () async {
+            print('CIDADE CLICADA: ${city.name}');
+
             ref.read(selectedCityProvider.notifier).selectCity(city);
 
-            //  mudar aba para clima
+            print(
+              'CIDADE NO PROVIDER (logo após set): '
+              '${ref.read(selectedCityProvider)}',
+            );
+
             ref.read(navigationIndexProvider.notifier).changeTab(1);
           },
           child: Container(

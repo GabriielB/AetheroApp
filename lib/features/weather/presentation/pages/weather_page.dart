@@ -2,8 +2,13 @@ import 'package:aethero/app/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../search/domain/entities/city.dart';
-import '../providers/selected_city_provider.dart';
+import '../../domain/utils/weather_code_mapper.dart';
+import '../../../../core/navigation/providers/selected_city_provider.dart';
+import '../providers/weather_provider.dart';
+import '../widgets/location_header.dart';
+import '../widgets/weather_main_card.dart';
+import '../widgets/weather_details_row.dart';
+import '../widgets/weather_states.dart';
 
 class WeatherPage extends ConsumerWidget {
   const WeatherPage({super.key});
@@ -11,100 +16,44 @@ class WeatherPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final city = ref.watch(selectedCityProvider);
+    final weatherAsync = ref.watch(weatherProvider);
 
-    if (city == null) {
-      return const _EmptyWeatherState();
-    }
+    return weatherAsync.when(
+      loading: () => const LoadingWeatherState(),
+      error: (e, _) => ErrorWeatherState(message: e.toString()),
+      data: (weather) {
+        if (city == null || weather == null) {
+          return const EmptyWeatherState();
+        }
 
-    return Scaffold(
-      appBar: AppBar(title: Text(city.name), centerTitle: true),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            _LocationHeader(city: city),
-            const SizedBox(height: 24),
-            const _WeatherMainCard(),
-          ],
-        ),
-      ),
-    );
-  }
-}
+        final info = mapWeatherCode(weather.weatherCode);
 
-class _EmptyWeatherState extends StatelessWidget {
-  const _EmptyWeatherState();
+        return Scaffold(
+          backgroundColor: AppColors.background,
+          body: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  LocationHeader(city: city),
+                  const SizedBox(height: 24),
 
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text('Selecione uma cidade', style: TextStyle(fontSize: 16)),
-      ),
-    );
-  }
-}
+                  WeatherMainCard(
+                    temperature: weather.temperature,
+                    description: info.description,
+                    icon: info.icon,
+                  ),
 
-class _LocationHeader extends StatelessWidget {
-  final City city;
+                  const SizedBox(height: 24),
 
-  const _LocationHeader({required this.city});
-
-  @override
-  Widget build(BuildContext context) {
-    final subtitle = city.fullName.replaceFirst('${city.name}, ', '');
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          city.name,
-          style: const TextStyle(
-            fontSize: 26,
-            fontWeight: FontWeight.bold,
-            color: AppColors.textPrimary,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          subtitle,
-          style: const TextStyle(fontSize: 14, color: AppColors.textSecondary),
-        ),
-      ],
-    );
-  }
-}
-
-class _WeatherMainCard extends StatelessWidget {
-  const _WeatherMainCard();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: AppColors.primary,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: const Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '24°C',
-            style: TextStyle(
-              fontSize: 48,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
+                  const WeatherDetailsRow(),
+                ],
+              ),
             ),
           ),
-          SizedBox(height: 8),
-          Text(
-            'Parcialmente nublado',
-            style: TextStyle(fontSize: 16, color: Colors.white70),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
