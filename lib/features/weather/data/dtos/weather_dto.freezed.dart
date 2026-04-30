@@ -338,7 +338,7 @@ $DailyDtoCopyWith<$Res> get daily {
 /// @nodoc
 mixin _$CurrentWeatherDto {
 
-@JsonKey(name: 'temperature_2m') double get temperature2m;@JsonKey(name: 'apparent_temperature') double get apparentTemperature;@JsonKey(name: 'relative_humidity_2m') double get relativeHumidity2m;@JsonKey(name: 'is_day') int get isDay;@JsonKey(name: 'weather_code') int get weatherCode;@JsonKey(name: 'wind_speed_10m') double get windSpeed10m;
+ String get time;@JsonKey(name: 'temperature_2m') double get temperature2m;@JsonKey(name: 'apparent_temperature') double get apparentTemperature;@JsonKey(name: 'relative_humidity_2m') double get relativeHumidity2m;@JsonKey(name: 'is_day') int get isDay;@JsonKey(name: 'weather_code') int get weatherCode;@JsonKey(name: 'wind_speed_10m') double get windSpeed10m;
 /// Create a copy of CurrentWeatherDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -351,16 +351,16 @@ $CurrentWeatherDtoCopyWith<CurrentWeatherDto> get copyWith => _$CurrentWeatherDt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CurrentWeatherDto&&(identical(other.temperature2m, temperature2m) || other.temperature2m == temperature2m)&&(identical(other.apparentTemperature, apparentTemperature) || other.apparentTemperature == apparentTemperature)&&(identical(other.relativeHumidity2m, relativeHumidity2m) || other.relativeHumidity2m == relativeHumidity2m)&&(identical(other.isDay, isDay) || other.isDay == isDay)&&(identical(other.weatherCode, weatherCode) || other.weatherCode == weatherCode)&&(identical(other.windSpeed10m, windSpeed10m) || other.windSpeed10m == windSpeed10m));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CurrentWeatherDto&&(identical(other.time, time) || other.time == time)&&(identical(other.temperature2m, temperature2m) || other.temperature2m == temperature2m)&&(identical(other.apparentTemperature, apparentTemperature) || other.apparentTemperature == apparentTemperature)&&(identical(other.relativeHumidity2m, relativeHumidity2m) || other.relativeHumidity2m == relativeHumidity2m)&&(identical(other.isDay, isDay) || other.isDay == isDay)&&(identical(other.weatherCode, weatherCode) || other.weatherCode == weatherCode)&&(identical(other.windSpeed10m, windSpeed10m) || other.windSpeed10m == windSpeed10m));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,temperature2m,apparentTemperature,relativeHumidity2m,isDay,weatherCode,windSpeed10m);
+int get hashCode => Object.hash(runtimeType,time,temperature2m,apparentTemperature,relativeHumidity2m,isDay,weatherCode,windSpeed10m);
 
 @override
 String toString() {
-  return 'CurrentWeatherDto(temperature2m: $temperature2m, apparentTemperature: $apparentTemperature, relativeHumidity2m: $relativeHumidity2m, isDay: $isDay, weatherCode: $weatherCode, windSpeed10m: $windSpeed10m)';
+  return 'CurrentWeatherDto(time: $time, temperature2m: $temperature2m, apparentTemperature: $apparentTemperature, relativeHumidity2m: $relativeHumidity2m, isDay: $isDay, weatherCode: $weatherCode, windSpeed10m: $windSpeed10m)';
 }
 
 
@@ -371,7 +371,7 @@ abstract mixin class $CurrentWeatherDtoCopyWith<$Res>  {
   factory $CurrentWeatherDtoCopyWith(CurrentWeatherDto value, $Res Function(CurrentWeatherDto) _then) = _$CurrentWeatherDtoCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'temperature_2m') double temperature2m,@JsonKey(name: 'apparent_temperature') double apparentTemperature,@JsonKey(name: 'relative_humidity_2m') double relativeHumidity2m,@JsonKey(name: 'is_day') int isDay,@JsonKey(name: 'weather_code') int weatherCode,@JsonKey(name: 'wind_speed_10m') double windSpeed10m
+ String time,@JsonKey(name: 'temperature_2m') double temperature2m,@JsonKey(name: 'apparent_temperature') double apparentTemperature,@JsonKey(name: 'relative_humidity_2m') double relativeHumidity2m,@JsonKey(name: 'is_day') int isDay,@JsonKey(name: 'weather_code') int weatherCode,@JsonKey(name: 'wind_speed_10m') double windSpeed10m
 });
 
 
@@ -388,9 +388,10 @@ class _$CurrentWeatherDtoCopyWithImpl<$Res>
 
 /// Create a copy of CurrentWeatherDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? temperature2m = null,Object? apparentTemperature = null,Object? relativeHumidity2m = null,Object? isDay = null,Object? weatherCode = null,Object? windSpeed10m = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? time = null,Object? temperature2m = null,Object? apparentTemperature = null,Object? relativeHumidity2m = null,Object? isDay = null,Object? weatherCode = null,Object? windSpeed10m = null,}) {
   return _then(_self.copyWith(
-temperature2m: null == temperature2m ? _self.temperature2m : temperature2m // ignore: cast_nullable_to_non_nullable
+time: null == time ? _self.time : time // ignore: cast_nullable_to_non_nullable
+as String,temperature2m: null == temperature2m ? _self.temperature2m : temperature2m // ignore: cast_nullable_to_non_nullable
 as double,apparentTemperature: null == apparentTemperature ? _self.apparentTemperature : apparentTemperature // ignore: cast_nullable_to_non_nullable
 as double,relativeHumidity2m: null == relativeHumidity2m ? _self.relativeHumidity2m : relativeHumidity2m // ignore: cast_nullable_to_non_nullable
 as double,isDay: null == isDay ? _self.isDay : isDay // ignore: cast_nullable_to_non_nullable
@@ -481,10 +482,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'temperature_2m')  double temperature2m, @JsonKey(name: 'apparent_temperature')  double apparentTemperature, @JsonKey(name: 'relative_humidity_2m')  double relativeHumidity2m, @JsonKey(name: 'is_day')  int isDay, @JsonKey(name: 'weather_code')  int weatherCode, @JsonKey(name: 'wind_speed_10m')  double windSpeed10m)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String time, @JsonKey(name: 'temperature_2m')  double temperature2m, @JsonKey(name: 'apparent_temperature')  double apparentTemperature, @JsonKey(name: 'relative_humidity_2m')  double relativeHumidity2m, @JsonKey(name: 'is_day')  int isDay, @JsonKey(name: 'weather_code')  int weatherCode, @JsonKey(name: 'wind_speed_10m')  double windSpeed10m)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CurrentWeatherDto() when $default != null:
-return $default(_that.temperature2m,_that.apparentTemperature,_that.relativeHumidity2m,_that.isDay,_that.weatherCode,_that.windSpeed10m);case _:
+return $default(_that.time,_that.temperature2m,_that.apparentTemperature,_that.relativeHumidity2m,_that.isDay,_that.weatherCode,_that.windSpeed10m);case _:
   return orElse();
 
 }
@@ -502,10 +503,10 @@ return $default(_that.temperature2m,_that.apparentTemperature,_that.relativeHumi
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'temperature_2m')  double temperature2m, @JsonKey(name: 'apparent_temperature')  double apparentTemperature, @JsonKey(name: 'relative_humidity_2m')  double relativeHumidity2m, @JsonKey(name: 'is_day')  int isDay, @JsonKey(name: 'weather_code')  int weatherCode, @JsonKey(name: 'wind_speed_10m')  double windSpeed10m)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String time, @JsonKey(name: 'temperature_2m')  double temperature2m, @JsonKey(name: 'apparent_temperature')  double apparentTemperature, @JsonKey(name: 'relative_humidity_2m')  double relativeHumidity2m, @JsonKey(name: 'is_day')  int isDay, @JsonKey(name: 'weather_code')  int weatherCode, @JsonKey(name: 'wind_speed_10m')  double windSpeed10m)  $default,) {final _that = this;
 switch (_that) {
 case _CurrentWeatherDto():
-return $default(_that.temperature2m,_that.apparentTemperature,_that.relativeHumidity2m,_that.isDay,_that.weatherCode,_that.windSpeed10m);case _:
+return $default(_that.time,_that.temperature2m,_that.apparentTemperature,_that.relativeHumidity2m,_that.isDay,_that.weatherCode,_that.windSpeed10m);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -522,10 +523,10 @@ return $default(_that.temperature2m,_that.apparentTemperature,_that.relativeHumi
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'temperature_2m')  double temperature2m, @JsonKey(name: 'apparent_temperature')  double apparentTemperature, @JsonKey(name: 'relative_humidity_2m')  double relativeHumidity2m, @JsonKey(name: 'is_day')  int isDay, @JsonKey(name: 'weather_code')  int weatherCode, @JsonKey(name: 'wind_speed_10m')  double windSpeed10m)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String time, @JsonKey(name: 'temperature_2m')  double temperature2m, @JsonKey(name: 'apparent_temperature')  double apparentTemperature, @JsonKey(name: 'relative_humidity_2m')  double relativeHumidity2m, @JsonKey(name: 'is_day')  int isDay, @JsonKey(name: 'weather_code')  int weatherCode, @JsonKey(name: 'wind_speed_10m')  double windSpeed10m)?  $default,) {final _that = this;
 switch (_that) {
 case _CurrentWeatherDto() when $default != null:
-return $default(_that.temperature2m,_that.apparentTemperature,_that.relativeHumidity2m,_that.isDay,_that.weatherCode,_that.windSpeed10m);case _:
+return $default(_that.time,_that.temperature2m,_that.apparentTemperature,_that.relativeHumidity2m,_that.isDay,_that.weatherCode,_that.windSpeed10m);case _:
   return null;
 
 }
@@ -537,9 +538,10 @@ return $default(_that.temperature2m,_that.apparentTemperature,_that.relativeHumi
 @JsonSerializable()
 
 class _CurrentWeatherDto implements CurrentWeatherDto {
-  const _CurrentWeatherDto({@JsonKey(name: 'temperature_2m') required this.temperature2m, @JsonKey(name: 'apparent_temperature') required this.apparentTemperature, @JsonKey(name: 'relative_humidity_2m') required this.relativeHumidity2m, @JsonKey(name: 'is_day') required this.isDay, @JsonKey(name: 'weather_code') required this.weatherCode, @JsonKey(name: 'wind_speed_10m') required this.windSpeed10m});
+  const _CurrentWeatherDto({required this.time, @JsonKey(name: 'temperature_2m') required this.temperature2m, @JsonKey(name: 'apparent_temperature') required this.apparentTemperature, @JsonKey(name: 'relative_humidity_2m') required this.relativeHumidity2m, @JsonKey(name: 'is_day') required this.isDay, @JsonKey(name: 'weather_code') required this.weatherCode, @JsonKey(name: 'wind_speed_10m') required this.windSpeed10m});
   factory _CurrentWeatherDto.fromJson(Map<String, dynamic> json) => _$CurrentWeatherDtoFromJson(json);
 
+@override final  String time;
 @override@JsonKey(name: 'temperature_2m') final  double temperature2m;
 @override@JsonKey(name: 'apparent_temperature') final  double apparentTemperature;
 @override@JsonKey(name: 'relative_humidity_2m') final  double relativeHumidity2m;
@@ -560,16 +562,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CurrentWeatherDto&&(identical(other.temperature2m, temperature2m) || other.temperature2m == temperature2m)&&(identical(other.apparentTemperature, apparentTemperature) || other.apparentTemperature == apparentTemperature)&&(identical(other.relativeHumidity2m, relativeHumidity2m) || other.relativeHumidity2m == relativeHumidity2m)&&(identical(other.isDay, isDay) || other.isDay == isDay)&&(identical(other.weatherCode, weatherCode) || other.weatherCode == weatherCode)&&(identical(other.windSpeed10m, windSpeed10m) || other.windSpeed10m == windSpeed10m));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CurrentWeatherDto&&(identical(other.time, time) || other.time == time)&&(identical(other.temperature2m, temperature2m) || other.temperature2m == temperature2m)&&(identical(other.apparentTemperature, apparentTemperature) || other.apparentTemperature == apparentTemperature)&&(identical(other.relativeHumidity2m, relativeHumidity2m) || other.relativeHumidity2m == relativeHumidity2m)&&(identical(other.isDay, isDay) || other.isDay == isDay)&&(identical(other.weatherCode, weatherCode) || other.weatherCode == weatherCode)&&(identical(other.windSpeed10m, windSpeed10m) || other.windSpeed10m == windSpeed10m));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,temperature2m,apparentTemperature,relativeHumidity2m,isDay,weatherCode,windSpeed10m);
+int get hashCode => Object.hash(runtimeType,time,temperature2m,apparentTemperature,relativeHumidity2m,isDay,weatherCode,windSpeed10m);
 
 @override
 String toString() {
-  return 'CurrentWeatherDto(temperature2m: $temperature2m, apparentTemperature: $apparentTemperature, relativeHumidity2m: $relativeHumidity2m, isDay: $isDay, weatherCode: $weatherCode, windSpeed10m: $windSpeed10m)';
+  return 'CurrentWeatherDto(time: $time, temperature2m: $temperature2m, apparentTemperature: $apparentTemperature, relativeHumidity2m: $relativeHumidity2m, isDay: $isDay, weatherCode: $weatherCode, windSpeed10m: $windSpeed10m)';
 }
 
 
@@ -580,7 +582,7 @@ abstract mixin class _$CurrentWeatherDtoCopyWith<$Res> implements $CurrentWeathe
   factory _$CurrentWeatherDtoCopyWith(_CurrentWeatherDto value, $Res Function(_CurrentWeatherDto) _then) = __$CurrentWeatherDtoCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'temperature_2m') double temperature2m,@JsonKey(name: 'apparent_temperature') double apparentTemperature,@JsonKey(name: 'relative_humidity_2m') double relativeHumidity2m,@JsonKey(name: 'is_day') int isDay,@JsonKey(name: 'weather_code') int weatherCode,@JsonKey(name: 'wind_speed_10m') double windSpeed10m
+ String time,@JsonKey(name: 'temperature_2m') double temperature2m,@JsonKey(name: 'apparent_temperature') double apparentTemperature,@JsonKey(name: 'relative_humidity_2m') double relativeHumidity2m,@JsonKey(name: 'is_day') int isDay,@JsonKey(name: 'weather_code') int weatherCode,@JsonKey(name: 'wind_speed_10m') double windSpeed10m
 });
 
 
@@ -597,9 +599,10 @@ class __$CurrentWeatherDtoCopyWithImpl<$Res>
 
 /// Create a copy of CurrentWeatherDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? temperature2m = null,Object? apparentTemperature = null,Object? relativeHumidity2m = null,Object? isDay = null,Object? weatherCode = null,Object? windSpeed10m = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? time = null,Object? temperature2m = null,Object? apparentTemperature = null,Object? relativeHumidity2m = null,Object? isDay = null,Object? weatherCode = null,Object? windSpeed10m = null,}) {
   return _then(_CurrentWeatherDto(
-temperature2m: null == temperature2m ? _self.temperature2m : temperature2m // ignore: cast_nullable_to_non_nullable
+time: null == time ? _self.time : time // ignore: cast_nullable_to_non_nullable
+as String,temperature2m: null == temperature2m ? _self.temperature2m : temperature2m // ignore: cast_nullable_to_non_nullable
 as double,apparentTemperature: null == apparentTemperature ? _self.apparentTemperature : apparentTemperature // ignore: cast_nullable_to_non_nullable
 as double,relativeHumidity2m: null == relativeHumidity2m ? _self.relativeHumidity2m : relativeHumidity2m // ignore: cast_nullable_to_non_nullable
 as double,isDay: null == isDay ? _self.isDay : isDay // ignore: cast_nullable_to_non_nullable

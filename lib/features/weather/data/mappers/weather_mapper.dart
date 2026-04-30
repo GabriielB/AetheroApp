@@ -4,40 +4,47 @@ import '../dtos/weather_dto.dart';
 
 extension WeatherMapper on WeatherDto {
   Weather toEntity() {
-    String formatTime(String fullDate) {
-      if (fullDate.isEmpty || !fullDate.contains('T')) return "--:--";
-      return fullDate.split('T').last;
-    }
+    final DateTime currentLocalTime = DateTime.parse(current.time);
+    final int currentHour = currentLocalTime.hour;
 
-    // Helper para pegar o primeiro valor de uma lista com segurança
-    double firstOrZero(List<num>? list) {
+    // 2. helpper ara acessar listas baseadas na hora atual
+    double getValueForCurrentHour(List<num>? list) {
       if (list == null || list.isEmpty) return 0.0;
+      if (list.length > currentHour) {
+        return list[currentHour].toDouble();
+      }
       return list.first.toDouble();
     }
 
     return Weather(
-      // Dados do Current
       temperature: current.temperature2m,
       apparentTemperature: current.apparentTemperature,
       weatherCode: current.weatherCode,
       isDay: current.isDay == 1,
       windSpeed: current.windSpeed10m,
-      humidity: current.relativeHumidity2m,
+      humidity: current.relativeHumidity2m, // ajustando para o dto
+      // sincroniza fuso horario
+      uvIndex: getValueForCurrentHour(hourly.uvIndex),
+      precipitation: getValueForCurrentHour(hourly.precipitation),
+      precipitationProbability: getValueForCurrentHour(
+        hourly.precipitationProbability,
+      ),
 
-      // Dados do Hourly (Usando o helper para evitar erro de null/empty)
-      uvIndex: firstOrZero(hourly.uvIndex),
-      precipitation: firstOrZero(hourly.precipitation),
-      precipitationProbability: firstOrZero(hourly.precipitationProbability),
+      // dados diarios
+      tempMax: daily.temperature2mMax.isNotEmpty
+          ? daily.temperature2mMax.first.toDouble()
+          : 0.0,
+      tempMin: daily.temperature2mMin.isNotEmpty
+          ? daily.temperature2mMin.first.toDouble()
+          : 0.0,
 
-      // Dados do Daily
-      tempMax: firstOrZero(daily.temperature2mMax),
-      tempMin: firstOrZero(daily.temperature2mMin),
+      // formatação de string
       sunrise: daily.sunrise.isNotEmpty
-          ? formatTime(daily.sunrise.first)
-          : "--:--",
+          ? daily.sunrise.first.split('T').last.substring(0, 5)
+          : '--:--',
       sunset: daily.sunset.isNotEmpty
-          ? formatTime(daily.sunset.first)
-          : "--:--",
+          ? daily.sunset.first.split('T').last.substring(0, 5)
+          : '--:--',
     );
   }
 
@@ -55,10 +62,8 @@ extension WeatherMapper on WeatherDto {
         time: DateTime.parse(times[i]),
         temperature: getValue(hourly.temperature2m, i),
         apparentTemperature: getValue(hourly.apparentTemperature, i),
-
         humidity: getValue(hourly.relativeHumidity2m, i),
         windSpeed: getValue(hourly.windSpeed10m, i),
-
         precipitation: getValue(hourly.precipitation, i),
         precipitationProbability: getValue(hourly.precipitationProbability, i),
         uvIndex: getValue(hourly.uvIndex, i),

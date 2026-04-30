@@ -18,6 +18,7 @@ abstract class WeatherDto with _$WeatherDto {
 @freezed
 abstract class CurrentWeatherDto with _$CurrentWeatherDto {
   const factory CurrentWeatherDto({
+    required String time,
     @JsonKey(name: 'temperature_2m') required double temperature2m,
     @JsonKey(name: 'apparent_temperature') required double apparentTemperature,
     @JsonKey(name: 'relative_humidity_2m') required double relativeHumidity2m,

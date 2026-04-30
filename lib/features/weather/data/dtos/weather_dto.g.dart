@@ -21,6 +21,7 @@ Map<String, dynamic> _$WeatherDtoToJson(_WeatherDto instance) =>
 
 _CurrentWeatherDto _$CurrentWeatherDtoFromJson(Map<String, dynamic> json) =>
     _CurrentWeatherDto(
+      time: json['time'] as String,
       temperature2m: (json['temperature_2m'] as num).toDouble(),
       apparentTemperature: (json['apparent_temperature'] as num).toDouble(),
       relativeHumidity2m: (json['relative_humidity_2m'] as num).toDouble(),
@@ -31,6 +32,7 @@ _CurrentWeatherDto _$CurrentWeatherDtoFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$CurrentWeatherDtoToJson(_CurrentWeatherDto instance) =>
     <String, dynamic>{
+      'time': instance.time,
       'temperature_2m': instance.temperature2m,
       'apparent_temperature': instance.apparentTemperature,
       'relative_humidity_2m': instance.relativeHumidity2m,

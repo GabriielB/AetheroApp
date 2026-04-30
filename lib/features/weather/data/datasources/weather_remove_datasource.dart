@@ -41,7 +41,11 @@ class WeatherRemoteDataSource {
           'timezone': 'auto',
         },
       );
-
+      // 🔥 ADICIONE ESTES PRINTS AQUI:
+      print('--- DEBUG WEATHER API ---');
+      print('URL COMPLETA: ${response.realUri}');
+      print('JSON DE RESPOSTA: ${response.data}');
+      print('-------------------------');
       return WeatherDto.fromJson(response.data);
     } on DioException catch (e) {
       throw Exception("Falha na requisição: ${e.message}");
