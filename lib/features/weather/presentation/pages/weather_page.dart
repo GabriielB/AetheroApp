@@ -1,9 +1,14 @@
-import 'package:aethero/app/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../search/domain/entities/city.dart';
-import '../providers/selected_city_provider.dart';
+import '../../../../app/theme/app_colors.dart';
+import '../../../../core/navigation/providers/selected_city_provider.dart';
+import '../../domain/utils/weather_code_mapper.dart';
+import '../providers/weather_provider.dart';
+import '../widgets/location_header.dart';
+import '../widgets/weather_main_card.dart';
+import '../widgets/weather_details_grid.dart';
+import '../widgets/recommendation_card.dart';
+import '../widgets/sun_info_card.dart';
 
 class WeatherPage extends ConsumerWidget {
   const WeatherPage({super.key});
@@ -11,99 +16,74 @@ class WeatherPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final city = ref.watch(selectedCityProvider);
-
-    if (city == null) {
-      return const _EmptyWeatherState();
-    }
+    final weatherAsync = ref.watch(weatherProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text(city.name), centerTitle: true),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            _LocationHeader(city: city),
-            const SizedBox(height: 24),
-            const _WeatherMainCard(),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _EmptyWeatherState extends StatelessWidget {
-  const _EmptyWeatherState();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text('Selecione uma cidade', style: TextStyle(fontSize: 16)),
-      ),
-    );
-  }
-}
-
-class _LocationHeader extends StatelessWidget {
-  final City city;
-
-  const _LocationHeader({required this.city});
-
-  @override
-  Widget build(BuildContext context) {
-    final subtitle = city.fullName.replaceFirst('${city.name}, ', '');
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          city.name,
-          style: const TextStyle(
-            fontSize: 26,
-            fontWeight: FontWeight.bold,
-            color: AppColors.textPrimary,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          subtitle,
-          style: const TextStyle(fontSize: 14, color: AppColors.textSecondary),
-        ),
-      ],
-    );
-  }
-}
-
-class _WeatherMainCard extends StatelessWidget {
-  const _WeatherMainCard();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: AppColors.primary,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: const Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '24°C',
-            style: TextStyle(
-              fontSize: 48,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
+      backgroundColor: AppColors.background,
+      body: SafeArea(
+        child: weatherAsync.when(
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error, _) => Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.error_outline,
+                  size: 48,
+                  color: AppColors.error,
+                ),
+                const SizedBox(height: 16),
+                Text('Erro ao carregar clima: $error'),
+              ],
             ),
           ),
-          SizedBox(height: 8),
-          Text(
-            'Parcialmente nublado',
-            style: TextStyle(fontSize: 16, color: Colors.white70),
-          ),
-        ],
+          data: (weather) {
+            if (city == null || weather == null) {
+              return const Center(child: Text('Selecione uma cidade'));
+            }
+
+            final weatherInfo = mapWeatherCode(weather.weatherCode);
+
+            return RefreshIndicator(
+              onRefresh: () => ref.refresh(weatherProvider.future),
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 16,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Header(city: city),
+                    const SizedBox(height: 24),
+                    WeatherMainCard(
+                      weather: weather,
+                      description: weatherInfo.description,
+                      icon: weatherInfo.icon,
+                    ),
+                    const SizedBox(height: 20),
+                    RecommendationCard(weather: weather),
+                    const SizedBox(height: 24),
+                    SunInfoCard(weather: weather),
+                    const SizedBox(height: 24),
+                    const Text(
+                      'Detalhes Meteorológicos',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    WeatherDetailsGrid(weather: weather),
+                    const SizedBox(height: 32),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
       ),
     );
   }

@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../search/domain/entities/city.dart';
+import '../../../features/search/domain/entities/city.dart';
 
 class SelectedCityNotifier extends Notifier<City?> {
   @override
