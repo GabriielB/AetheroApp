@@ -1,4 +1,7 @@
+import 'package:aethero/features/weather/domain/entities/hourly_weather.dart';
+
 class Weather {
+  final List<HourlyWeather> hourlyForecast;
   final double temperature;
   final double apparentTemperature;
   final int weatherCode;
@@ -15,6 +18,7 @@ class Weather {
   final String sunset;
 
   const Weather({
+    required this.hourlyForecast,
     required this.temperature,
     required this.apparentTemperature,
     required this.weatherCode,

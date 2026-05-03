@@ -1,3 +1,4 @@
+import 'package:aethero/features/weather/presentation/widgets/training_windows_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../app/theme/app_colors.dart';
@@ -60,12 +61,16 @@ class WeatherPage extends ConsumerWidget {
                     WeatherMainCard(
                       weather: weather,
                       description: weatherInfo.description,
-                      icon: weatherInfo.icon,
                     ),
                     const SizedBox(height: 20),
                     RecommendationCard(weather: weather),
                     const SizedBox(height: 24),
                     SunInfoCard(weather: weather),
+                    const SizedBox(height: 24),
+                    TrainingWindowsCard(
+                      hourlyList: weather.hourlyForecast,
+                      hourlyData: weather.hourlyForecast,
+                    ),
                     const SizedBox(height: 24),
                     const Text(
                       'Detalhes Meteorológicos',
