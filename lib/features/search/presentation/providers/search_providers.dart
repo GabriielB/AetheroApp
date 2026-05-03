@@ -10,7 +10,7 @@ final nominatimDatasourceProvider = Provider<NominatimRemoteDatasource>((ref) {
   final dio = ref.read(nominatimDioProvider);
   return NominatimRemoteDatasource(dio);
 });
-// provider do repositorio
+
 final searchRepositoryProvider = Provider<SearchRepository>((ref) {
   final datasource = ref.read(nominatimDatasourceProvider);
   return SearchRepositoryImpl(datasource);

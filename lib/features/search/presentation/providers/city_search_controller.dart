@@ -1,10 +1,11 @@
-import 'package:aethero/features/search/presentation/providers/search_providers.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:async';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'city_search_state.dart';
+import 'search_providers.dart';
 
 class CitySearchController extends Notifier<CitySearchState> {
   Timer? _debounce;
+
   @override
   CitySearchState build() {
     ref.onDispose(() {
@@ -14,21 +15,24 @@ class CitySearchController extends Notifier<CitySearchState> {
     return const CitySearchState.initial();
   }
 
+  void clearSearch() {
+    _debounce?.cancel();
+    state = const CitySearchState.initial();
+  }
+
   Future<void> searchCity(String query) async {
-    // cancela chamada anterior
     _debounce?.cancel();
 
-    _debounce = Timer(const Duration(milliseconds: 500), () async {
-      if (query.isEmpty) {
-        state = const CitySearchState.initial();
-        return;
-      }
+    if (query.trim().isEmpty) {
+      state = const CitySearchState.initial();
+      return;
+    }
 
+    _debounce = Timer(const Duration(milliseconds: 500), () async {
       state = const CitySearchState.loading();
 
       try {
         final repository = ref.read(searchRepositoryProvider);
-
         final cities = await repository.searchCity(query);
 
         if (cities.isEmpty) {
