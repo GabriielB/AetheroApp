@@ -7,7 +7,7 @@ extension WeatherMapper on WeatherDto {
     final DateTime currentLocalTime = DateTime.parse(current.time);
     final int currentHour = currentLocalTime.hour;
 
-    // 2. helpper ara acessar listas baseadas na hora atual
+    // 2. helpper pra acessar listas baseadas na hora atual
     double getValueForCurrentHour(List<num>? list) {
       if (list == null || list.isEmpty) return 0.0;
       if (list.length > currentHour) {
@@ -17,6 +17,7 @@ extension WeatherMapper on WeatherDto {
     }
 
     return Weather(
+      hourlyForecast: toHourlyList(),
       temperature: current.temperature2m,
       apparentTemperature: current.apparentTemperature,
       weatherCode: current.weatherCode,
