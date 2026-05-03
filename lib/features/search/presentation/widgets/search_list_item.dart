@@ -11,7 +11,7 @@ class CityListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // remove o nome da cidade do fullName para não repetir
+    // remove o nome da cidade do fullName pra não repetir
     final subtitle = city.fullName.replaceFirst('${city.name}, ', '');
 
     return Container(

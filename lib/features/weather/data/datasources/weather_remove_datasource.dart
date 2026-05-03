@@ -1,3 +1,4 @@
+import 'package:aethero/core/network/api_constants.dart';
 import 'package:dio/dio.dart';
 import '../dtos/weather_dto.dart';
 
@@ -11,7 +12,7 @@ class WeatherRemoteDataSource {
   }) async {
     try {
       final response = await dio.get(
-        'https://api.open-meteo.com/v1/forecast',
+        '${ApiConstants.weatherBaseUrl}/forecast',
         queryParameters: {
           'latitude': latitude,
           'longitude': longitude,
@@ -41,11 +42,7 @@ class WeatherRemoteDataSource {
           'timezone': 'auto',
         },
       );
-      // 🔥 ADICIONE ESTES PRINTS AQUI:
-      print('--- DEBUG WEATHER API ---');
-      print('URL COMPLETA: ${response.realUri}');
-      print('JSON DE RESPOSTA: ${response.data}');
-      print('-------------------------');
+
       return WeatherDto.fromJson(response.data);
     } on DioException catch (e) {
       throw Exception("Falha na requisição: ${e.message}");

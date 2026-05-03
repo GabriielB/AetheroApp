@@ -1,17 +1,21 @@
+import 'package:aethero/features/favorites/presentation/providers/favorite_providers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../search/domain/entities/city.dart';
 
-class Header extends StatelessWidget {
+class Header extends ConsumerWidget {
   final City city;
 
   const Header({super.key, required this.city});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final cityName = city.name.split(',').first.trim();
     final locationContext = city.fullName.split(',').skip(1).join(',').trim();
+
+    final isFavorite = ref.watch(isCityFavoriteProvider(city.id));
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -67,19 +71,27 @@ class Header extends StatelessWidget {
         Container(
           margin: const EdgeInsets.only(top: 4),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: isFavorite
+                ? AppColors.primary.withValues(alpha: 0.1)
+                : AppColors.surface,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.border.withValues(alpha: 0.5)),
+            border: Border.all(
+              color: isFavorite
+                  ? AppColors.primary
+                  : AppColors.border.withValues(alpha: 0.5),
+            ),
           ),
           child: IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              LucideIcons.bookmark,
+            onPressed: () {
+              ref.read(favoritesDataSourceProvider).toggleFavorite(city);
+            },
+            icon: Icon(
+              isFavorite ? LucideIcons.bookmarkCheck : LucideIcons.bookmark,
               color: AppColors.primary,
               size: 22,
             ),
             visualDensity: VisualDensity.compact,
-            tooltip: 'Salvar cidade',
+            tooltip: isFavorite ? 'Remover dos favoritos' : 'Salvar cidade',
           ),
         ),
       ],

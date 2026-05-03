@@ -1,4 +1,5 @@
 import 'package:aethero/features/search/presentation/providers/city_search_state.dart';
+import 'package:aethero/features/search/presentation/widgets/api_credits.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../app/theme/app_colors.dart';
@@ -49,7 +50,6 @@ class SearchPage extends ConsumerWidget {
   }
 }
 
-// organiza o conteudo que aparece antes de qualquer busca ser feita
 class _InitialContent extends StatelessWidget {
   const _InitialContent();
 
@@ -64,6 +64,10 @@ class _InitialContent extends StatelessWidget {
         SizedBox(height: 32),
 
         SearchSuggestions(),
+
+        SizedBox(height: 40),
+
+        ApiCredits(),
 
         SizedBox(height: 40),
       ],

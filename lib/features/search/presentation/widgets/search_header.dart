@@ -14,7 +14,7 @@ class SearchHeader extends StatelessWidget {
           Row(
             children: [
               Text(
-                'Explore o Mundo',
+                'Onde vamos treinar?',
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.w900,
