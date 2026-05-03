@@ -48,6 +48,6 @@ class CitySearchController extends Notifier<CitySearchState> {
 }
 
 final citySearchControllerProvider =
-    NotifierProvider<CitySearchController, CitySearchState>(
+    NotifierProvider.autoDispose<CitySearchController, CitySearchState>(
       CitySearchController.new,
     );

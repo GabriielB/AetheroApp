@@ -4,17 +4,26 @@ import 'package:aethero/features/weather/data/repositories/weather_repository_im
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+final _dioProvider = Provider((ref) => Dio());
+final _weatherRepositoryProvider = Provider((ref) {
+  final dio = ref.watch(_dioProvider);
+  return WeatherRepositoryImpl(WeatherRemoteDataSource(dio));
+});
+
 final weatherProvider = FutureProvider((ref) async {
   final city = ref.watch(selectedCityProvider);
 
   if (city == null) return null;
 
-  final dio = Dio();
-  final datasource = WeatherRemoteDataSource(dio);
-  final repository = WeatherRepositoryImpl(datasource);
+  final repository = ref.read(_weatherRepositoryProvider);
 
-  return repository.getWeather(
-    latitude: city.latitude,
-    longitude: city.longitude,
-  );
+  try {
+    return await repository.getWeather(
+      latitude: city.latitude,
+      longitude: city.longitude,
+      cityId: city.id,
+    );
+  } catch (e) {
+    rethrow;
+  }
 });

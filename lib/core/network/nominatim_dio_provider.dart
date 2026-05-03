@@ -7,10 +7,7 @@ final nominatimDioProvider = Provider<Dio>((ref) {
       baseUrl: 'https://nominatim.openstreetmap.org',
       connectTimeout: const Duration(seconds: 10),
       receiveTimeout: const Duration(seconds: 10),
-      headers: {
-        // 🔥 obrigatório no Nominatim
-        'User-Agent': 'AetheroApp/1.0 (gabriel@email.com)',
-      },
+      headers: {'User-Agent': 'AetheroApp/1.0 (gabriel@email.com)'},
       responseType: ResponseType.json,
     ),
   );

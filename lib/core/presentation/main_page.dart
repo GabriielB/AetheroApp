@@ -1,4 +1,5 @@
 import 'package:aethero/app/theme/app_colors.dart';
+import 'package:aethero/features/favorites/presentation/pages/favorites_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_flutter/lucide_flutter.dart';
@@ -14,11 +15,7 @@ class MainPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = ref.watch(navigationIndexProvider);
 
-    final pages = const [
-      SearchPage(),
-      WeatherPage(),
-      _FavoritesPagePlaceholder(),
-    ];
+    final pages = const [SearchPage(), WeatherPage(), FavoritesPage()];
 
     return Scaffold(
       body: pages[currentIndex],
@@ -88,17 +85,6 @@ class MainPage extends ConsumerWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _FavoritesPagePlaceholder extends StatelessWidget {
-  const _FavoritesPagePlaceholder();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Favoritos (em construção)', style: TextStyle(fontSize: 16)),
     );
   }
 }

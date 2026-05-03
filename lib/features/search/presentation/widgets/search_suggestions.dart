@@ -35,16 +35,40 @@ class SearchSuggestions extends ConsumerWidget {
         'bgColor': AppColors.cardGreen,
       },
       {
+        'name': 'Brasília',
+        'icon': LucideIcons.landmark,
+        'color': const Color(0xFF64748B),
+        'bgColor': const Color(0xFFF1F5F9),
+      },
+      {
         'name': 'Salvador',
         'icon': LucideIcons.waves,
         'color': const Color(0xFF0EA5E9),
         'bgColor': const Color(0xFFE0F2FE),
       },
       {
-        'name': 'Brasília',
-        'icon': LucideIcons.landmark,
-        'color': AppColors.textSecondary,
-        'bgColor': AppColors.background,
+        'name': 'Curitiba',
+        'icon': LucideIcons.treePine,
+        'color': const Color(0xFF16A34A),
+        'bgColor': const Color(0xFFDCFCE7),
+      },
+      {
+        'name': 'Fortaleza',
+        'icon': LucideIcons.umbrella,
+        'color': const Color(0xFFF59E0B),
+        'bgColor': const Color(0xFFFEF3C7),
+      },
+      {
+        'name': 'Manaus',
+        'icon': LucideIcons.leaf,
+        'color': const Color(0xFF059669),
+        'bgColor': const Color(0xFFD1FAE5),
+      },
+      {
+        'name': 'Porto Alegre',
+        'icon': LucideIcons.thermometerSnowflake,
+        'color': const Color(0xFF4F46E5),
+        'bgColor': const Color(0xFFE0E7FF),
       },
     ];
 
