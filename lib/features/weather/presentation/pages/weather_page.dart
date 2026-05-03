@@ -1,4 +1,5 @@
 import 'package:aethero/features/weather/presentation/widgets/training_windows_card.dart';
+import 'package:aethero/features/weather/presentation/widgets/weather_status_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../app/theme/app_colors.dart';
@@ -23,24 +24,11 @@ class WeatherPage extends ConsumerWidget {
       backgroundColor: AppColors.background,
       body: SafeArea(
         child: weatherAsync.when(
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, _) => Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(
-                  Icons.error_outline,
-                  size: 48,
-                  color: AppColors.error,
-                ),
-                const SizedBox(height: 16),
-                Text('Erro ao carregar clima: $error'),
-              ],
-            ),
-          ),
+          loading: () => const WeatherLoadingState(),
+          error: (error, _) => WeatherErrorState(message: error.toString()),
           data: (weather) {
             if (city == null || weather == null) {
-              return const Center(child: Text('Selecione uma cidade'));
+              return const WeatherEmptyState();
             }
 
             final weatherInfo = mapWeatherCode(weather.weatherCode);
@@ -58,25 +46,30 @@ class WeatherPage extends ConsumerWidget {
                   children: [
                     Header(city: city),
                     const SizedBox(height: 24),
+
                     WeatherMainCard(
                       weather: weather,
                       description: weatherInfo.description,
                     ),
+
                     const SizedBox(height: 20),
                     RecommendationCard(weather: weather),
+
                     const SizedBox(height: 24),
                     SunInfoCard(weather: weather),
+
                     const SizedBox(height: 24),
                     TrainingWindowsCard(
                       hourlyList: weather.hourlyForecast,
                       hourlyData: weather.hourlyForecast,
                     ),
+
                     const SizedBox(height: 24),
                     const Text(
                       'Detalhes Meteorológicos',
                       style: TextStyle(
                         fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w900,
                         color: AppColors.textPrimary,
                       ),
                     ),

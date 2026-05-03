@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'search_states.dart';
+part of 'weather_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -12,7 +12,7 @@ part of 'search_states.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$CitySearchState {
+mixin _$WeatherState {
 
 
 
@@ -20,7 +20,7 @@ mixin _$CitySearchState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CitySearchState);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WeatherState);
 }
 
 
@@ -29,20 +29,20 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'CitySearchState()';
+  return 'WeatherState()';
 }
 
 
 }
 
 /// @nodoc
-class $CitySearchStateCopyWith<$Res>  {
-$CitySearchStateCopyWith(CitySearchState _, $Res Function(CitySearchState) __);
+class $WeatherStateCopyWith<$Res>  {
+$WeatherStateCopyWith(WeatherState _, $Res Function(WeatherState) __);
 }
 
 
-/// Adds pattern-matching-related methods to [CitySearchState].
-extension CitySearchStatePatterns on CitySearchState {
+/// Adds pattern-matching-related methods to [WeatherState].
+extension WeatherStatePatterns on WeatherState {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -131,13 +131,13 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function()?  empty,TResult Function( List<City> cities)?  success,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function()?  empty,TResult Function( Weather weather)?  success,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
 return loading();case _Empty() when empty != null:
 return empty();case _Success() when success != null:
-return success(_that.cities);case _Error() when error != null:
+return success(_that.weather);case _Error() when error != null:
 return error(_that.message);case _:
   return orElse();
 
@@ -156,13 +156,13 @@ return error(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function()  empty,required TResult Function( List<City> cities)  success,required TResult Function( String message)  error,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function()  empty,required TResult Function( Weather weather)  success,required TResult Function( String message)  error,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial();case _Loading():
 return loading();case _Empty():
 return empty();case _Success():
-return success(_that.cities);case _Error():
+return success(_that.weather);case _Error():
 return error(_that.message);case _:
   throw StateError('Unexpected subclass');
 
@@ -180,13 +180,13 @@ return error(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function()?  empty,TResult? Function( List<City> cities)?  success,TResult? Function( String message)?  error,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function()?  empty,TResult? Function( Weather weather)?  success,TResult? Function( String message)?  error,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
 return loading();case _Empty() when empty != null:
 return empty();case _Success() when success != null:
-return success(_that.cities);case _Error() when error != null:
+return success(_that.weather);case _Error() when error != null:
 return error(_that.message);case _:
   return null;
 
@@ -198,7 +198,7 @@ return error(_that.message);case _:
 /// @nodoc
 
 
-class _Initial implements CitySearchState {
+class _Initial implements WeatherState {
   const _Initial();
   
 
@@ -218,7 +218,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'CitySearchState.initial()';
+  return 'WeatherState.initial()';
 }
 
 
@@ -230,7 +230,7 @@ String toString() {
 /// @nodoc
 
 
-class _Loading implements CitySearchState {
+class _Loading implements WeatherState {
   const _Loading();
   
 
@@ -250,7 +250,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'CitySearchState.loading()';
+  return 'WeatherState.loading()';
 }
 
 
@@ -262,7 +262,7 @@ String toString() {
 /// @nodoc
 
 
-class _Empty implements CitySearchState {
+class _Empty implements WeatherState {
   const _Empty();
   
 
@@ -282,7 +282,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'CitySearchState.empty()';
+  return 'WeatherState.empty()';
 }
 
 
@@ -294,19 +294,13 @@ String toString() {
 /// @nodoc
 
 
-class _Success implements CitySearchState {
-  const _Success(final  List<City> cities): _cities = cities;
+class _Success implements WeatherState {
+  const _Success(this.weather);
   
 
- final  List<City> _cities;
- List<City> get cities {
-  if (_cities is EqualUnmodifiableListView) return _cities;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_cities);
-}
+ final  Weather weather;
 
-
-/// Create a copy of CitySearchState
+/// Create a copy of WeatherState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
@@ -316,27 +310,27 @@ _$SuccessCopyWith<_Success> get copyWith => __$SuccessCopyWithImpl<_Success>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Success&&const DeepCollectionEquality().equals(other._cities, _cities));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Success&&(identical(other.weather, weather) || other.weather == weather));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_cities));
+int get hashCode => Object.hash(runtimeType,weather);
 
 @override
 String toString() {
-  return 'CitySearchState.success(cities: $cities)';
+  return 'WeatherState.success(weather: $weather)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$SuccessCopyWith<$Res> implements $CitySearchStateCopyWith<$Res> {
+abstract mixin class _$SuccessCopyWith<$Res> implements $WeatherStateCopyWith<$Res> {
   factory _$SuccessCopyWith(_Success value, $Res Function(_Success) _then) = __$SuccessCopyWithImpl;
 @useResult
 $Res call({
- List<City> cities
+ Weather weather
 });
 
 
@@ -351,12 +345,12 @@ class __$SuccessCopyWithImpl<$Res>
   final _Success _self;
   final $Res Function(_Success) _then;
 
-/// Create a copy of CitySearchState
+/// Create a copy of WeatherState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? cities = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? weather = null,}) {
   return _then(_Success(
-null == cities ? _self._cities : cities // ignore: cast_nullable_to_non_nullable
-as List<City>,
+null == weather ? _self.weather : weather // ignore: cast_nullable_to_non_nullable
+as Weather,
   ));
 }
 
@@ -366,13 +360,13 @@ as List<City>,
 /// @nodoc
 
 
-class _Error implements CitySearchState {
+class _Error implements WeatherState {
   const _Error(this.message);
   
 
  final  String message;
 
-/// Create a copy of CitySearchState
+/// Create a copy of WeatherState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
@@ -391,14 +385,14 @@ int get hashCode => Object.hash(runtimeType,message);
 
 @override
 String toString() {
-  return 'CitySearchState.error(message: $message)';
+  return 'WeatherState.error(message: $message)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$ErrorCopyWith<$Res> implements $CitySearchStateCopyWith<$Res> {
+abstract mixin class _$ErrorCopyWith<$Res> implements $WeatherStateCopyWith<$Res> {
   factory _$ErrorCopyWith(_Error value, $Res Function(_Error) _then) = __$ErrorCopyWithImpl;
 @useResult
 $Res call({
@@ -417,7 +411,7 @@ class __$ErrorCopyWithImpl<$Res>
   final _Error _self;
   final $Res Function(_Error) _then;
 
-/// Create a copy of CitySearchState
+/// Create a copy of WeatherState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
   return _then(_Error(
