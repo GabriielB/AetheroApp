@@ -1,11 +1,13 @@
+import 'package:aethero/features/search/presentation/providers/city_search_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:aethero/core/navigation/providers/navigation_provider.dart';
-import '../../../../core/navigation/providers/selected_city_provider.dart';
+import '../../../../app/theme/app_colors.dart';
 import '../providers/city_search_controller.dart';
-import '../providers/city_search_state.dart';
-import '../../domain/entities/city.dart';
-import 'package:lucide_flutter/lucide_flutter.dart';
+import '../widgets/city_list.dart';
+import '../widgets/search_field.dart';
+import '../widgets/search_header.dart';
+import '../widgets/search_states.dart';
+import '../widgets/search_suggestions.dart';
 
 class SearchPage extends ConsumerWidget {
   const SearchPage({super.key});
@@ -15,202 +17,56 @@ class SearchPage extends ConsumerWidget {
     final state = ref.watch(citySearchControllerProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Buscar cidade'), centerTitle: true),
-      body: Column(
-        children: [
-          const _SearchField(),
-          Expanded(
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              child: state.when(
-                initial: () => const _InitialState(),
-                loading: () => const _LoadingState(),
-                empty: () => const _EmptyState(),
-                error: (msg) => _ErrorState(message: msg),
-                success: (cities) => _CityList(cities: cities),
+      backgroundColor: AppColors.background,
+      body: SafeArea(
+        child: CustomScrollView(
+          physics: const BouncingScrollPhysics(),
+          slivers: [
+            const SliverToBoxAdapter(child: SearchHeader()),
+
+            const SliverToBoxAdapter(child: SearchField()),
+
+            state.when(
+              initial: () => const SliverToBoxAdapter(child: _InitialContent()),
+
+              loading: () =>
+                  const SliverToBoxAdapter(child: SearchLoadingState()),
+
+              empty: () => const SliverToBoxAdapter(child: SearchEmptyState()),
+
+              error: (msg) =>
+                  SliverToBoxAdapter(child: SearchErrorState(message: msg)),
+
+              success: (cities) => SliverPadding(
+                padding: const EdgeInsets.only(bottom: 24),
+                sliver: CityListSliver(cities: cities),
               ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _SearchField extends ConsumerWidget {
-  const _SearchField({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: 'Buscar cidade ou bairro...',
-          prefixIcon: const Icon(Icons.search),
-          filled: true,
-          fillColor: Colors.grey.shade100,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: BorderSide.none,
-          ),
+          ],
         ),
-        onChanged: (value) {
-          ref.read(citySearchControllerProvider.notifier).searchCity(value);
-        },
       ),
     );
   }
 }
 
-class _InitialState extends StatelessWidget {
-  const _InitialState();
+// organiza o conteudo que aparece antes de qualquer busca ser feita
+class _InitialContent extends StatelessWidget {
+  const _InitialContent();
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        'Digite uma cidade ou bairro',
-        style: TextStyle(fontSize: 16),
-      ),
-    );
-  }
-}
+    return const Column(
+      children: [
+        SizedBox(height: 12),
 
-class _LoadingState extends StatelessWidget {
-  const _LoadingState();
+        SearchInitialState(),
 
-  @override
-  Widget build(BuildContext context) {
-    return const Center(child: CircularProgressIndicator());
-  }
-}
+        SizedBox(height: 32),
 
-class _EmptyState extends StatelessWidget {
-  const _EmptyState();
+        SearchSuggestions(),
 
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Nenhum local encontrado', style: TextStyle(fontSize: 16)),
-    );
-  }
-}
-
-class _ErrorState extends StatelessWidget {
-  final String message;
-
-  const _ErrorState({required this.message});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Erro: $message', style: const TextStyle(color: Colors.red)),
-    );
-  }
-}
-
-class _CityList extends ConsumerWidget {
-  final List<City> cities;
-
-  const _CityList({required this.cities});
-
-  IconData _getIcon(String? type) {
-    final t = type?.toLowerCase();
-
-    switch (t) {
-      case 'city':
-      case 'administrative':
-      case 'municipality':
-        return LucideIcons.mapPin;
-
-      case 'town':
-      case 'village':
-      case 'hamlet':
-        return LucideIcons.mapPinHouse;
-
-      case 'suburb':
-      case 'neighbourhood':
-        return LucideIcons.mapPinHouse;
-
-      default:
-        return LucideIcons.navigation;
-    }
-  }
-
-  @override
-  Widget build(BuildContext contex, WidgetRef ref) {
-    return ListView.separated(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      itemCount: cities.length,
-      separatorBuilder: (_, __) => const SizedBox(height: 12),
-      itemBuilder: (context, index) {
-        final city = cities[index];
-
-        final subtitle = city.fullName.replaceFirst('${city.name}, ', '');
-
-        return InkWell(
-          borderRadius: BorderRadius.circular(16),
-          onTap: () async {
-            print('CIDADE CLICADA: ${city.name}');
-
-            ref.read(selectedCityProvider.notifier).selectCity(city);
-
-            print(
-              'CIDADE NO PROVIDER (logo após set): '
-              '${ref.read(selectedCityProvider)}',
-            );
-
-            ref.read(navigationIndexProvider.notifier).changeTab(1);
-          },
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.grey.shade100,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: city.placeType == 'suburb'
-                        ? Colors.green.withValues(alpha: 0.1)
-                        : Colors.blue.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Icon(
-                    _getIcon(city.placeType),
-                    size: 20,
-                    color: city.placeType == 'suburb'
-                        ? Colors.green
-                        : Colors.blue,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        city.name,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        subtitle,
-                        style: TextStyle(color: Colors.grey.shade600),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
+        SizedBox(height: 40),
+      ],
     );
   }
 }
