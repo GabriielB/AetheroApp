@@ -68,4 +68,4 @@ Distribuído sob a licença MIT.
 
 ---
 
-Feito com ❤️ por Gabriel (https://github.com/GabriielB)
+Feito por Gabriel (https://github.com/GabriielB)
